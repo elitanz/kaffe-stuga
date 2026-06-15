@@ -89,10 +89,10 @@
     will-change:transform}
   .hero-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,16,9,.58),rgba(26,16,9,.4) 38%,rgba(26,16,9,.93))}
   #bean-canvas{position:absolute;inset:0;z-index:1;display:block;opacity:0;transition:opacity 1.2s ease;pointer-events:none}
-  #bean-canvas.ready{opacity:1}
-  .hero-glow{position:absolute;z-index:1;left:0;top:0;width:560px;height:560px;pointer-events:none;border-radius:50%;
-    background:radial-gradient(circle,rgba(236,203,134,.34),rgba(221,159,71,.13) 42%,transparent 70%);
-    mix-blend-mode:screen;opacity:0;transition:opacity .55s ease;will-change:transform;filter:blur(6px)}
+  #bean-canvas.ready{opacity:.72}
+  .hero-glow{position:absolute;z-index:1;left:0;top:0;width:520px;height:520px;pointer-events:none;border-radius:50%;
+    background:radial-gradient(circle,rgba(236,203,134,.2),rgba(221,159,71,.07) 42%,transparent 70%);
+    mix-blend-mode:screen;opacity:0;transition:opacity .55s ease;will-change:transform;filter:blur(8px)}
   .hero-content{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;will-change:transform,opacity}
   .hero-content .wrap{padding-bottom:9vh;width:100%}
   .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(3rem,9vw,7rem);line-height:.98;letter-spacing:-.015em;max-width:15ch;margin:18px 0 22px}
@@ -111,7 +111,9 @@
   @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
   /* ---------- STATS STRIP (count-up on scroll) ---------- */
-  .stats{background:var(--pine);color:var(--cream);padding:64px 0;border-block:1px solid var(--line)}
+  .stats{position:relative;z-index:5;margin-top:-40px;border-radius:32px 32px 0 0;
+    background:var(--pine);color:var(--cream);padding:76px 0 64px;border-bottom:1px solid var(--line);
+    box-shadow:0 -34px 70px -32px rgba(0,0,0,.7)}
   .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
   .stat .n{font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1;color:var(--butter)}
   .stat .l{font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;opacity:.78;margin-top:8px}
@@ -518,21 +520,21 @@
 
     const canvas=document.getElementById('bean-canvas');
     const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));   // softer beans + cheaper than the photo's crisp detail
     renderer.outputColorSpace=THREE.SRGBColorSpace;
     renderer.toneMapping=THREE.ACESFilmicToneMapping;   // filmic, photographic response
-    renderer.toneMappingExposure=1.05;
+    renderer.toneMappingExposure=0.82;                   // dimmer → sits in the photo's light
     const scene=new THREE.Scene();
-    scene.fog=new THREE.FogExp2(0x140c06,0.045);         // beans recede into shadow → depth
+    scene.fog=new THREE.FogExp2(0x140c06,0.062);         // beans recede into shadow → depth
     const cam=new THREE.PerspectiveCamera(50,1,0.1,100); cam.position.set(0,0,9);
 
     // image-based lighting → realistic reflections & soft shading (no external HDR file)
     const pmrem=new THREE.PMREMGenerator(renderer);
     scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;
 
-    // a soft warm key on top of the IBL for directionality
-    const dir=new THREE.DirectionalLight(0xffe7bf,1.05); dir.position.set(4,6,5); scene.add(dir);
-    scene.add(new THREE.HemisphereLight(0xf0d9b0,0x140c06,0.45));
+    // a soft warm key on top of the IBL for directionality (kept low to match the bokeh photo)
+    const dir=new THREE.DirectionalLight(0xffe7bf,0.6); dir.position.set(4,6,5); scene.add(dir);
+    scene.add(new THREE.HemisphereLight(0xf0d9b0,0x140c06,0.32));
 
     // realistic coffee-bean geometry: an ellipsoid with a seam carved down one face
     const geo=new THREE.SphereGeometry(0.5,48,32);
@@ -546,9 +548,9 @@
       }
       geo.computeVertexNormals();
     }
-    // physically-based roasted-bean surface: matte body with a faint oily clearcoat sheen
-    const mat=new THREE.MeshPhysicalMaterial({roughness:.46,metalness:0,clearcoat:.4,clearcoatRoughness:.5});
-    const N=60;
+    // physically-based roasted-bean surface: matte body with a faint, soft sheen (no glassy CGI highlight)
+    const mat=new THREE.MeshPhysicalMaterial({roughness:.62,metalness:0,clearcoat:.16,clearcoatRoughness:.7});
+    const N=40;
     const mesh=new THREE.InstancedMesh(geo,mat,N);
     const browns=[0x3f2616,0x5a3320,0x2e1b0f,0x6e4326,0x241509,0x7a4f2c];
     const dummy=new THREE.Object3D(); const beans=[];
@@ -556,7 +558,7 @@
       const B={ x:(Math.random()-.5)*14, y:(Math.random()-.5)*12, z:(Math.random()-.5)*7,
         rx:Math.random()*Math.PI, ry:Math.random()*Math.PI, rz:Math.random()*Math.PI,
         sp:0.1+Math.random()*0.3, drift:0.2+Math.random()*0.5, ph:Math.random()*6.28,
-        sc:0.5+Math.random()*1.0, ox:0, oy:0 };
+        sc:0.26+Math.random()*0.58, ox:0, oy:0 };
       beans.push(B);
       mesh.setColorAt(i,new THREE.Color(browns[i%browns.length]));
     }
@@ -573,7 +575,7 @@
     const heroEl=document.getElementById('top');
     new IntersectionObserver(es=>es.forEach(e=>heroVisible=e.isIntersecting)).observe(heroEl);
 
-    const STIR=3.6;   // world-unit radius the cursor stirs within
+    const STIR=3.2;   // world-unit radius the cursor stirs within
     function loop(){
       requestAnimationFrame(loop);
       if(!heroVisible) return;
@@ -586,26 +588,26 @@
       for(let i=0;i<N;i++){
         const B=beans[i];
         const baseX=B.x+Math.sin(t*B.drift+B.ph)*0.6;
-        const baseY=B.y+Math.cos(t*B.drift*0.8+B.ph)*0.6 + sp*4;
-        // cursor stir: nearby beans get pushed outward + swirled around the pointer
+        const baseY=B.y+Math.cos(t*B.drift*0.8+B.ph)*0.6 - sp*5;   // fall/pour down into the page on scroll
+        // cursor stir: nearby beans get gently pushed outward + swirled around the pointer
         let dx=baseX-cuX, dy=baseY-cuY, d2=dx*dx+dy*dy, infl=0, desX=0, desY=0;
         if(d2<R2){
           const d=Math.sqrt(d2)||0.001; infl=1-d/STIR;
           const nx=dx/d, ny=dy/d, e=infl*infl;
-          desX=(nx*1.0 - ny*2.3)*e;   // outward push + tangential swirl
-          desY=(ny*1.0 + nx*2.3)*e;
+          desX=(nx*0.7 - ny*1.6)*e;   // outward push + tangential swirl
+          desY=(ny*0.7 + nx*1.6)*e;
         }
         B.ox+=(desX-B.ox)*0.12; B.oy+=(desY-B.oy)*0.12;   // ease in, settle back out
         dummy.position.set(baseX+B.ox, baseY+B.oy, B.z);
-        const spin=B.sp+infl*2.4;
+        const spin=B.sp+infl*1.6;
         dummy.rotation.set(B.rx+t*spin, B.ry+t*spin*0.7, B.rz+t*spin*0.5);
-        const sc=B.sc*(1-sp*0.5)*(1+infl*0.55);
+        const sc=B.sc*(1-sp*0.85)*(1+infl*0.4);   // shrink away as the hero hands off to the page
         dummy.scale.setScalar(Math.max(0.02,sc));
         dummy.updateMatrix(); mesh.setMatrixAt(i,dummy.matrix);
       }
       mesh.instanceMatrix.needsUpdate=true;
       group.rotation.y=mx*0.35; group.rotation.x=my*0.28;
-      cam.position.z=9+sp*4;
+      cam.position.z=9+sp*5;   // camera dollies back as you scroll → beans recede
       renderer.render(scene,cam);
     }
     loop();
@@ -621,7 +623,7 @@
       requestAnimationFrame(glowLoop);
       if(!heroVisible) return;
       gx+=(mouseX-gx)*0.14; gy+=(mouseY-gy)*0.14;
-      glow.style.transform=`translate3d(${gx-280}px,${gy-280}px,0)`;
+      glow.style.transform=`translate3d(${gx-260}px,${gy-260}px,0)`;
     })();
   }
 
