@@ -80,30 +80,35 @@
   .nav-links a{opacity:.82;transition:opacity .2s}.nav-links a:hover{opacity:1}
   .nav-cta{border:1px solid var(--line);color:var(--cream);padding:10px 18px;border-radius:999px;font-weight:700;font-size:.86rem;transition:all .25s}
   .nav-cta:hover{background:var(--cream);color:var(--pine);border-color:var(--cream)}
-  /* Hamburger button (mobile only) */
-  .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:46px;height:46px;
-    border:1px solid var(--line);border-radius:12px;background:rgba(245,239,226,.06);cursor:pointer;padding:0 11px}
-  .nav-toggle span{display:block;height:2px;width:100%;background:var(--cream);border-radius:2px;
-    transition:transform .3s ease,opacity .25s ease}
-  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  /* Hamburger button (mobile only) — absolute-centered bars so open state is a clean X */
+  .nav-toggle{display:none;position:relative;width:46px;height:46px;border:1px solid var(--line);
+    border-radius:12px;background:rgba(245,239,226,.06);cursor:pointer}
+  .nav-toggle span{position:absolute;left:50%;top:50%;width:20px;height:2px;background:var(--cream);
+    border-radius:2px;transform:translate(-50%,-50%);
+    transition:transform .32s cubic-bezier(.2,.7,.2,1),opacity .2s ease}
+  .nav-toggle span:nth-child(1){transform:translate(-50%,calc(-50% - 7px))}
+  .nav-toggle span:nth-child(3){transform:translate(-50%,calc(-50% + 7px))}
+  .nav-toggle.open span:nth-child(1){transform:translate(-50%,-50%) rotate(45deg)}
   .nav-toggle.open span:nth-child(2){opacity:0}
-  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-  /* Mobile slide-down menu */
-  .mobile-menu{display:none;position:fixed;top:78px;left:0;right:0;z-index:55;
-    background:rgba(26,16,9,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
-    padding:14px 0 22px;opacity:0;transform:translateY(-12px);pointer-events:none;
-    transition:opacity .3s ease,transform .3s ease}
-  .mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
+  .nav-toggle.open span:nth-child(3){transform:translate(-50%,-50%) rotate(-45deg)}
+  /* Mobile full-screen overlay menu (no hero bleed-through) */
+  .mobile-menu{display:none;position:fixed;inset:0;z-index:55;overflow-y:auto;
+    background:linear-gradient(180deg,#22150c,#150c06);
+    padding:104px 0 44px;opacity:0;pointer-events:none;transition:opacity .32s ease}
+  .mobile-menu.open{opacity:1;pointer-events:auto}
   .mobile-menu .wrap{display:flex;flex-direction:column}
-  .mobile-menu a{color:var(--cream);font-weight:600;font-size:1.06rem;padding:14px 4px;
-    border-bottom:1px solid var(--line);transition:color .2s}
-  .mobile-menu a:hover{color:var(--butter)}
-  .mobile-menu .m-call{margin-top:16px;border:0;background:var(--falu);color:#fff;text-align:center;
-    border-radius:999px;padding:15px;font-weight:700;box-shadow:0 14px 34px -12px rgba(158,59,46,.85)}
-  .mobile-menu .m-fb{text-align:center;color:var(--butter);border-bottom:0;padding-top:16px}
+  .mobile-menu a{font-family:var(--serif);color:var(--cream);font-weight:600;font-size:1.5rem;
+    padding:18px 2px;border-bottom:1px solid var(--line);transition:color .2s,padding-left .25s}
+  .mobile-menu a:hover{color:var(--butter);padding-left:8px}
+  .mobile-menu .m-fb{font-family:var(--sans);font-size:1.02rem;font-weight:700;color:var(--butter);
+    border-bottom:0;padding-top:26px}
+  .mobile-menu .m-call{font-family:var(--sans);font-size:1.05rem;margin-top:12px;border:0;background:var(--falu);
+    color:#fff;text-align:center;border-radius:999px;padding:16px;font-weight:700;
+    box-shadow:0 14px 34px -12px rgba(158,59,46,.85)}
+  body.menu-open{overflow:hidden}
   @media(max-width:780px){
     .nav-links{display:none}.scroll-hint{display:none}
-    .nav-cta{display:none}.nav-toggle{display:flex}.mobile-menu{display:block}
+    .nav-cta{display:none}.nav-toggle{display:block}.mobile-menu{display:block}
   }
 
   /* ---------- HERO with live 3D ---------- */
@@ -964,6 +969,7 @@
   function setMenu(open){
     navToggle.classList.toggle('open',open);
     mobileMenu.classList.toggle('open',open);
+    document.body.classList.toggle('menu-open',open);
     navToggle.setAttribute('aria-expanded',open);
     navToggle.setAttribute('aria-label',open?'Close menu':'Open menu');
   }
