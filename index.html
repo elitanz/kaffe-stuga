@@ -80,7 +80,31 @@
   .nav-links a{opacity:.82;transition:opacity .2s}.nav-links a:hover{opacity:1}
   .nav-cta{border:1px solid var(--line);color:var(--cream);padding:10px 18px;border-radius:999px;font-weight:700;font-size:.86rem;transition:all .25s}
   .nav-cta:hover{background:var(--cream);color:var(--pine);border-color:var(--cream)}
-  @media(max-width:780px){.nav-links{display:none}.scroll-hint{display:none}}
+  /* Hamburger button (mobile only) */
+  .nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:46px;height:46px;
+    border:1px solid var(--line);border-radius:12px;background:rgba(245,239,226,.06);cursor:pointer;padding:0 11px}
+  .nav-toggle span{display:block;height:2px;width:100%;background:var(--cream);border-radius:2px;
+    transition:transform .3s ease,opacity .25s ease}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle.open span:nth-child(2){opacity:0}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  /* Mobile slide-down menu */
+  .mobile-menu{display:none;position:fixed;top:78px;left:0;right:0;z-index:55;
+    background:rgba(26,16,9,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+    padding:14px 0 22px;opacity:0;transform:translateY(-12px);pointer-events:none;
+    transition:opacity .3s ease,transform .3s ease}
+  .mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
+  .mobile-menu .wrap{display:flex;flex-direction:column}
+  .mobile-menu a{color:var(--cream);font-weight:600;font-size:1.06rem;padding:14px 4px;
+    border-bottom:1px solid var(--line);transition:color .2s}
+  .mobile-menu a:hover{color:var(--butter)}
+  .mobile-menu .m-call{margin-top:16px;border:0;background:var(--falu);color:#fff;text-align:center;
+    border-radius:999px;padding:15px;font-weight:700;box-shadow:0 14px 34px -12px rgba(158,59,46,.85)}
+  .mobile-menu .m-fb{text-align:center;color:var(--butter);border-bottom:0;padding-top:16px}
+  @media(max-width:780px){
+    .nav-links{display:none}.scroll-hint{display:none}
+    .nav-cta{display:none}.nav-toggle{display:flex}.mobile-menu{display:block}
+  }
 
   /* ---------- HERO with live 3D ---------- */
   .hero{position:relative;height:100svh;overflow:hidden;color:var(--cream)}
@@ -259,9 +283,25 @@
         <a href="#story">Our Story</a><a href="#how">The Visit</a><a href="#menu">Menu</a><a href="#gallery">Gallery</a><a href="#visit">Find Us</a>
       </div>
       <a class="nav-cta" href="tel:+16516749958">Call (651) 674-9958</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
     </nav>
   </div>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="wrap">
+    <a href="#story">Our Story</a>
+    <a href="#how">The Visit</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#visit">Find Us</a>
+    <a class="m-fb" target="_blank" rel="noopener" href="https://www.facebook.com/kaffestugamn/">Daily specials on Facebook →</a>
+    <a class="m-call" href="tel:+16516749958">Call (651) 674-9958</a>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="top">
@@ -610,7 +650,7 @@
       </div>
     </div>
 
-    <p class="menu-note reveal">Prices reflect the latest posted menu and may change. Call <a href="tel:+16516749958" style="color:var(--butter)">(651) 674-9958</a> to confirm today's offerings, specials, and pie selection.</p>
+    <p class="menu-note reveal">Prices are subject to change and reflect the latest posted menu. Call <a href="tel:+16516749958" style="color:var(--butter)">(651) 674-9958</a> to confirm today's offerings, specials, and pie selection.</p>
   </div>
 </section>
 
@@ -917,6 +957,20 @@
       card.style.setProperty('--my',(e.clientY-r.top)+'px');
     },{passive:true});
   });
+
+  /* ---- Mobile hamburger menu ---- */
+  const navToggle=document.getElementById('navToggle');
+  const mobileMenu=document.getElementById('mobileMenu');
+  function setMenu(open){
+    navToggle.classList.toggle('open',open);
+    mobileMenu.classList.toggle('open',open);
+    navToggle.setAttribute('aria-expanded',open);
+    navToggle.setAttribute('aria-label',open?'Close menu':'Open menu');
+  }
+  navToggle.addEventListener('click',()=>setMenu(!mobileMenu.classList.contains('open')));
+  mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+  addEventListener('resize',()=>{if(innerWidth>780)setMenu(false);},{passive:true});
+  addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false);});
 
   /* ---- Menu tabs (Main / Breakfast / Lunch) ---- */
   const menuTabs=[...document.querySelectorAll('.menu-tab')];
