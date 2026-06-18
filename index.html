@@ -149,17 +149,40 @@
 
   /* ---------- MENU ---------- */
   .menu{background:var(--pine);color:var(--cream);padding:130px 0}
-  .menu .head{max-width:600px;margin-bottom:52px}.menu h2{margin-top:12px}
+  .menu .head{max-width:640px;margin-bottom:30px}.menu h2{margin-top:12px}
   .menu .head p{color:rgba(245,239,226,.74);margin-top:14px}
-  .menu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-  .dish{background:rgba(245,239,226,.05);border:1px solid var(--line);border-radius:18px;padding:26px 28px;transition:transform .4s,background .4s}
-  .dish:hover{transform:translateY(-6px);background:rgba(245,239,226,.09)}
-  .dish .top{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
-  .dish h3{font-family:var(--serif);font-weight:600;font-size:1.4rem}
-  .dish .tag{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--butter);padding:4px 9px;border-radius:999px;white-space:nowrap}
-  .dish p{color:rgba(245,239,226,.72);font-size:.96rem;margin-top:8px}
-  .menu-note{margin-top:28px;font-size:.9rem;color:rgba(245,239,226,.6)}
-  @media(max-width:740px){.menu-grid{grid-template-columns:1fr}}
+  /* Facebook daily-specials callout */
+  .menu-fb{display:inline-flex;align-items:center;gap:14px;background:rgba(245,239,226,.06);border:1px solid var(--line);
+    border-radius:16px;padding:15px 22px;margin-bottom:38px;max-width:580px;transition:transform .3s,border-color .3s,background .3s}
+  .menu-fb:hover{transform:translateY(-3px);border-color:var(--butter);background:rgba(245,239,226,.1)}
+  .menu-fb svg{width:30px;height:30px;flex-shrink:0;color:#5b8def}
+  .menu-fb span{font-size:.98rem;color:rgba(245,239,226,.85);line-height:1.45}
+  .menu-fb b{color:var(--cream)}
+  .menu-fb .go{color:var(--butter);font-weight:700;white-space:nowrap}
+  /* Tabs */
+  .menu-tabs{display:inline-flex;flex-wrap:wrap;gap:6px;background:rgba(245,239,226,.06);border:1px solid var(--line);
+    border-radius:999px;padding:6px;margin-bottom:42px}
+  .menu-tab{appearance:none;border:0;background:transparent;color:rgba(245,239,226,.72);font-family:var(--sans);font-weight:700;
+    font-size:.95rem;letter-spacing:.01em;padding:11px 28px;border-radius:999px;cursor:pointer;transition:color .3s,background .3s,box-shadow .3s}
+  .menu-tab:hover{color:var(--cream)}
+  .menu-tab.active{background:var(--butter);color:var(--ink);box-shadow:0 12px 26px -14px rgba(236,203,134,.8)}
+  .menu-panel{display:none}
+  .menu-panel.active{display:block;animation:menuFade .5s cubic-bezier(.2,.7,.2,1)}
+  @keyframes menuFade{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .menu-cats{columns:2;column-gap:30px}
+  .menu-cat{break-inside:avoid;margin:0 0 30px;background:rgba(245,239,226,.05);border:1px solid var(--line);
+    border-radius:18px;padding:24px 28px 16px;transition:border-color .4s,background .4s}
+  .menu-cat:hover{border-color:rgba(221,159,71,.35);background:rgba(245,239,226,.08)}
+  .menu-cat h3{font-family:var(--serif);font-weight:600;font-size:1.45rem;color:var(--butter);margin-bottom:6px}
+  .menu-cat ul{list-style:none}
+  .menu-item{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:11px 0;
+    border-bottom:1px dashed rgba(245,239,226,.13)}
+  .menu-item:last-child{border-bottom:0}
+  .menu-item .nm{font-weight:600}
+  .menu-item .nm small{display:block;font-weight:400;font-size:.82rem;color:rgba(245,239,226,.6);margin-top:2px}
+  .menu-item .pr{font-family:var(--serif);font-weight:600;color:var(--cream);white-space:nowrap}
+  .menu-note{margin-top:14px;font-size:.9rem;color:rgba(245,239,226,.6)}
+  @media(max-width:740px){.menu-cats{columns:1}.menu-tab{padding:10px 20px;font-size:.9rem}}
 
   /* ---------- FEATURES (cursor-spotlight cards) ---------- */
   .feats{background:var(--ink);color:var(--cream);padding:120px 0;overflow:hidden}
@@ -214,7 +237,6 @@
   footer{background:var(--ink);color:rgba(245,239,226,.72);padding:60px 0 40px;font-size:.92rem}
   .foot-grid{display:flex;justify-content:space-between;flex-wrap:wrap;gap:28px;align-items:center}
   .foot-grid .brand{color:var(--cream);font-family:var(--serif);font-weight:600;font-size:1.4rem}
-  .demo-note{margin-top:34px;padding-top:22px;border-top:1px solid var(--line);font-size:.82rem;opacity:.62;text-align:center;line-height:1.6}
 
   @media(prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -315,20 +337,280 @@
   <div class="wrap">
     <div class="head">
       <span class="eyebrow reveal">On the Menu</span>
-      <h2 class="reveal d1">The plates Harris keeps coming back for.</h2>
-      <p class="reveal d2">A taste of the home-style favorites. Breakfast served all day. Ask your server about today's pies and the soup of the day.</p>
+      <h2 class="reveal d1">Fifty years of home cooking.</h2>
+      <p class="reveal d2">Breakfast served all day, hearty lunch and dinner plates, and a dessert case worth saving room for. Here's the full menu.</p>
     </div>
-    <div class="menu-grid">
-      <div class="dish reveal"><div class="top"><h3>Hot Beef Sandwich</h3><span class="tag">Local favorite</span></div><p>Slow-cooked roast beef over bread with real mashed potatoes and gravy. The one everybody tells you to order.</p></div>
-      <div class="dish reveal d1"><div class="top"><h3>Home Patty Burger</h3><span class="tag">Ground daily</span></div><p>A hand-pattied burger made with beef that's fresh-ground in the kitchen every morning.</p></div>
-      <div class="dish reveal"><div class="top"><h3>Apple Fritter French Toast</h3></div><p>Thick-cut French toast meets warm apple fritter — a breakfast worth getting off the highway for.</p></div>
-      <div class="dish reveal d1"><div class="top"><h3>Swedish Meatballs</h3></div><p>A nod to the Stuga name — tender meatballs in rich gravy, the old-country way.</p></div>
-      <div class="dish reveal"><div class="top"><h3>Cheesy Potato &amp; Ham Soup</h3><span class="tag">Made fresh</span></div><p>Thick, creamy, and loaded — the bowl that gets you through a Minnesota winter.</p></div>
-      <div class="dish reveal d1"><div class="top"><h3>Turkey &amp; Roast Beef Dinners</h3></div><p>Full home-style dinners with all the fixings — mashed potatoes, gravy, and a roll.</p></div>
-      <div class="dish reveal"><div class="top"><h3>Giant Cinnamon Roll</h3><span class="tag">Bakery</span></div><p>Warm, gooey, and big enough to share (but you won't want to).</p></div>
-      <div class="dish reveal d1"><div class="top"><h3>Chocolate Sour Cream Pie</h3><span class="tag">Scratch-made</span></div><p>The dessert case is the whole point. Save room — or take a whole pie home.</p></div>
+
+    <a class="menu-fb reveal d2" target="_blank" rel="noopener" href="https://www.facebook.com/kaffestugamn/">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.01 10.12 11.93v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.89v2.25h3.32l-.53 3.49h-2.79V24C19.61 23.08 24 18.09 24 12.07Z"/></svg>
+      <span><b>Daily specials &amp; fresh pies change often</b> — see what's cooking today on <span class="go">Facebook →</span></span>
+    </a>
+
+    <div class="menu-tabs reveal d1" role="tablist" aria-label="Menu sections">
+      <button class="menu-tab active" role="tab" aria-selected="true" data-tab="main">Main</button>
+      <button class="menu-tab" role="tab" aria-selected="false" data-tab="breakfast">Breakfast</button>
+      <button class="menu-tab" role="tab" aria-selected="false" data-tab="lunch">Lunch</button>
     </div>
-    <p class="menu-note reveal">Menu items reflect long-time local favorites. Call <a href="tel:+16516749958" style="color:var(--butter)">(651) 674-9958</a> for today's full menu, specials, and pie selection.</p>
+
+    <!-- MAIN -->
+    <div class="menu-panel active" role="tabpanel" data-panel="main">
+      <div class="menu-cats">
+        <div class="menu-cat">
+          <h3>Special Choices</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Grilled Liver &amp; Onions</span><span class="pr">$11.25</span></li>
+            <li class="menu-item"><span class="nm">Half Chicken</span><span class="pr">$13.50</span></li>
+            <li class="menu-item"><span class="nm">Quarter Chicken</span><span class="pr">$11.95</span></li>
+            <li class="menu-item"><span class="nm">Grilled Pork Chops</span><span class="pr">$13.25</span></li>
+            <li class="menu-item"><span class="nm">Hamburger Steak</span><span class="pr">$11.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Seafood</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Breaded Butterfly Shrimp</span><span class="pr">$11.25</span></li>
+            <li class="menu-item"><span class="nm">Batter-Fried Cod</span><span class="pr">$11.25</span></li>
+            <li class="menu-item"><span class="nm">Breaded 7oz Walleye</span><span class="pr">$14.95</span></li>
+            <li class="menu-item"><span class="nm">8oz Breaded Home Fish</span><span class="pr">$12.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Main Plates</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Stuga Burger Plate</span><span class="pr">$9.95</span></li>
+            <li class="menu-item"><span class="nm">Mini Corn Dogs</span><span class="pr">$8.95</span></li>
+            <li class="menu-item"><span class="nm">Hot Beef Sandwich<small>Half / Whole</small></span><span class="pr">$7.95 / $9.50</span></li>
+            <li class="menu-item"><span class="nm">Chef Salad</span><span class="pr">$7.75</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Baskets</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Chicken Strip Basket</span><span class="pr">$8.95</span></li>
+            <li class="menu-item"><span class="nm">Shrimp Basket</span><span class="pr">$8.95</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Sandwiches</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Hand Patty Hamburger</span><span class="pr">$4.60</span></li>
+            <li class="menu-item"><span class="nm">Hamburger</span><span class="pr">$2.65</span></li>
+            <li class="menu-item"><span class="nm">Bacon Cheeseburger</span><span class="pr">$3.85</span></li>
+            <li class="menu-item"><span class="nm">Cheeseburger</span><span class="pr">$2.95</span></li>
+            <li class="menu-item"><span class="nm">California Burger</span><span class="pr">$3.25</span></li>
+            <li class="menu-item"><span class="nm">BLT</span><span class="pr">$5.25</span></li>
+            <li class="menu-item"><span class="nm">Breaded Fish Burger</span><span class="pr">$5.25</span></li>
+            <li class="menu-item"><span class="nm">Grilled Cheese</span><span class="pr">$2.50</span></li>
+            <li class="menu-item"><span class="nm">Corn Dog</span><span class="pr">$2.50</span></li>
+            <li class="menu-item"><span class="nm">Belt Buster Patty Melt<small>1/2 lb / 1/3 lb</small></span><span class="pr">$6.95 / $6.25</span></li>
+            <li class="menu-item"><span class="nm">Grilled Chicken Filet</span><span class="pr">$5.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Side Orders</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Dinner Salad</span><span class="pr">$3.25</span></li>
+            <li class="menu-item"><span class="nm">Homemade Soup<small>Cup / Bowl</small></span><span class="pr">$2.70 / $4.50</span></li>
+            <li class="menu-item"><span class="nm">Breaded Mozzarella Sticks</span><span class="pr">$5.75</span></li>
+            <li class="menu-item"><span class="nm">Onion Rings</span><span class="pr">$4.25</span></li>
+            <li class="menu-item"><span class="nm">French Fries</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Hash Browns</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Mashed Potatoes</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Breaded Green Beans</span><span class="pr">$4.85</span></li>
+            <li class="menu-item"><span class="nm">Pie</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Side of Dressing or Cheese</span><span class="pr">$0.50</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Drinks</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Large Pop with Refill</span><span class="pr">$2.95</span></li>
+            <li class="menu-item"><span class="nm">Small Pop</span><span class="pr">$1.60</span></li>
+            <li class="menu-item"><span class="nm">Can of Pop</span><span class="pr">$1.75</span></li>
+            <li class="menu-item"><span class="nm">Coffee</span><span class="pr">$2.50</span></li>
+            <li class="menu-item"><span class="nm">Milk<small>Small / Large</small></span><span class="pr">$1.60 / $1.95</span></li>
+            <li class="menu-item"><span class="nm">Juice<small>Small / Large</small></span><span class="pr">$1.60 / $1.95</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- BREAKFAST -->
+    <div class="menu-panel" role="tabpanel" data-panel="breakfast">
+      <div class="menu-cats">
+        <div class="menu-cat">
+          <h3>Breakfast Specials</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Stuga Special</span><span class="pr">$10.25</span></li>
+            <li class="menu-item"><span class="nm">Stuga Stack</span><span class="pr">$10.25</span></li>
+            <li class="menu-item"><span class="nm">Country Fried Steak</span><span class="pr">$10.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Eggs</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Eggs, bacon/ham/sausage &amp; toast<small>1 egg / 2 eggs</small></span><span class="pr">$7.50 / $8.70</span></li>
+            <li class="menu-item"><span class="nm">Eggs, hash browns &amp; toast<small>1 egg / 2 eggs</small></span><span class="pr">$5.95 / $6.75</span></li>
+            <li class="menu-item"><span class="nm">Eggs &amp; toast<small>1 egg / 2 eggs</small></span><span class="pr">$3.80 / $4.55</span></li>
+            <li class="menu-item"><span class="nm">English Muffin Sandwich</span><span class="pr">$4.75</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>French Toast</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">French Toast, plain</span><span class="pr">$5.50</span></li>
+            <li class="menu-item"><span class="nm">French Toast w/ bacon, ham or sausage</span><span class="pr">$7.95</span></li>
+            <li class="menu-item"><span class="nm">French Toast w/ 2 eggs</span><span class="pr">$7.75</span></li>
+            <li class="menu-item"><span class="nm">French Toast w/ 2 eggs &amp; hash browns</span><span class="pr">$8.50</span></li>
+            <li class="menu-item"><span class="nm">French Toast w/ 2 eggs &amp; meat</span><span class="pr">$9.25</span></li>
+            <li class="menu-item"><span class="nm">Apple Fritter French Toast, plain</span><span class="pr">$5.75</span></li>
+            <li class="menu-item"><span class="nm">Apple Fritter F.T. w/ bacon, ham or sausage</span><span class="pr">$8.25</span></li>
+            <li class="menu-item"><span class="nm">Apple Fritter F.T. w/ 2 eggs &amp; hash browns</span><span class="pr">$7.95</span></li>
+            <li class="menu-item"><span class="nm">Apple Fritter F.T. w/ 2 eggs &amp; meat</span><span class="pr">$8.75</span></li>
+            <li class="menu-item"><span class="nm">Apple Fritter F.T. w/ 2 eggs</span><span class="pr">$9.50</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Pancakes</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">One Pancake</span><span class="pr">$3.95</span></li>
+            <li class="menu-item"><span class="nm">One Pancake w/ meat</span><span class="pr">$7.25</span></li>
+            <li class="menu-item"><span class="nm">One Pancake, 1 egg</span><span class="pr">$5.75</span></li>
+            <li class="menu-item"><span class="nm">One Pancake, 2 eggs</span><span class="pr">$6.50</span></li>
+            <li class="menu-item"><span class="nm">One Pancake, 1 egg &amp; 1 patty</span><span class="pr">$6.75</span></li>
+            <li class="menu-item"><span class="nm">One Pancake, 2 eggs &amp; meat</span><span class="pr">$8.25</span></li>
+            <li class="menu-item"><span class="nm">One Pancake &amp; hash browns</span><span class="pr">$6.25</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes</span><span class="pr">$4.50</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes, 1 egg</span><span class="pr">$6.25</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes, 2 eggs</span><span class="pr">$6.75</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes w/ meat</span><span class="pr">$7.95</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes, 2 bacon &amp; 2 sausage</span><span class="pr">$8.50</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes, 2 eggs &amp; meat</span><span class="pr">$8.75</span></li>
+            <li class="menu-item"><span class="nm">Two Pancakes, hash browns &amp; meat</span><span class="pr">$9.25</span></li>
+            <li class="menu-item"><span class="nm">Three Pancakes</span><span class="pr">$5.50</span></li>
+            <li class="menu-item"><span class="nm">Three Pancakes w/ meat</span><span class="pr">$8.50</span></li>
+            <li class="menu-item"><span class="nm">Three Pancakes, 1 egg</span><span class="pr">$6.75</span></li>
+            <li class="menu-item"><span class="nm">Three Pancakes, 2 eggs</span><span class="pr">$7.75</span></li>
+            <li class="menu-item"><span class="nm">Three Pancakes, 1 egg &amp; meat</span><span class="pr">$9.50</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Biscuits &amp; Gravy</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Biscuits &amp; Gravy<small>Full / Half</small></span><span class="pr">$6.50 / $5.50</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Side Orders</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Cinnamon Roll</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Bacon, Ham or Sausage</span><span class="pr">$4.25</span></li>
+            <li class="menu-item"><span class="nm">Hash Browns</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Sausage Gravy</span><span class="pr">$2.45</span></li>
+            <li class="menu-item"><span class="nm">English Muffin</span><span class="pr">$2.00</span></li>
+            <li class="menu-item"><span class="nm">Toast</span><span class="pr">$2.00</span></li>
+            <li class="menu-item"><span class="nm">Egg</span><span class="pr">$2.00</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Drinks</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Large Pop with Refill</span><span class="pr">$2.95</span></li>
+            <li class="menu-item"><span class="nm">Small Pop</span><span class="pr">$1.60</span></li>
+            <li class="menu-item"><span class="nm">Can of Pop</span><span class="pr">$1.75</span></li>
+            <li class="menu-item"><span class="nm">Coffee</span><span class="pr">$2.50</span></li>
+            <li class="menu-item"><span class="nm">Milk<small>Small / Large</small></span><span class="pr">$1.60 / $1.95</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- LUNCH -->
+    <div class="menu-panel" role="tabpanel" data-panel="lunch">
+      <div class="menu-cats">
+        <div class="menu-cat">
+          <h3>Special Choices</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Grilled Liver &amp; Onions</span><span class="pr">$10.25</span></li>
+            <li class="menu-item"><span class="nm">Chicken<small>Half / Quarter</small></span><span class="pr">$12.25 / $10.75</span></li>
+            <li class="menu-item"><span class="nm">Grilled Pork Chops</span><span class="pr">$12.95</span></li>
+            <li class="menu-item"><span class="nm">Hamburger Steak</span><span class="pr">$11.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Baskets</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Breaded Clams Basket</span><span class="pr">$8.95</span></li>
+            <li class="menu-item"><span class="nm">Shrimp Basket</span><span class="pr">$8.95</span></li>
+            <li class="menu-item"><span class="nm">Breaded Chicken Basket</span><span class="pr">$8.95</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Seafood</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Breaded Butterfly Shrimp</span><span class="pr">$11.25</span></li>
+            <li class="menu-item"><span class="nm">Batter-Fried Cod</span><span class="pr">$11.25</span></li>
+            <li class="menu-item"><span class="nm">Breaded 7oz Walleye</span><span class="pr">$14.95</span></li>
+            <li class="menu-item"><span class="nm">8oz Breaded Home Fish</span><span class="pr">$12.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Main Plates</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Stuga Burger Plate</span><span class="pr">$9.50</span></li>
+            <li class="menu-item"><span class="nm">Chef Salad</span><span class="pr">$7.75</span></li>
+            <li class="menu-item"><span class="nm">Mini Corn Dogs</span><span class="pr">$7.50</span></li>
+            <li class="menu-item"><span class="nm">Hot Beef Sandwich<small>Half / Whole</small></span><span class="pr">$7.95 / $9.25</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Sandwiches</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Home Patty Hamburger</span><span class="pr">$3.60</span></li>
+            <li class="menu-item"><span class="nm">Hamburger</span><span class="pr">$2.65</span></li>
+            <li class="menu-item"><span class="nm">Bacon Cheeseburger</span><span class="pr">$3.85</span></li>
+            <li class="menu-item"><span class="nm">Cheeseburger</span><span class="pr">$2.95</span></li>
+            <li class="menu-item"><span class="nm">California Burger</span><span class="pr">$3.25</span></li>
+            <li class="menu-item"><span class="nm">BLT</span><span class="pr">$4.95</span></li>
+            <li class="menu-item"><span class="nm">Breaded Fish Burger</span><span class="pr">$5.25</span></li>
+            <li class="menu-item"><span class="nm">Grilled Cheese</span><span class="pr">$2.50</span></li>
+            <li class="menu-item"><span class="nm">Corn Dog</span><span class="pr">$2.50</span></li>
+            <li class="menu-item"><span class="nm">Belt Buster Patty Melt</span><span class="pr">$6.95</span></li>
+            <li class="menu-item"><span class="nm">1/3 lb Patty Melt</span><span class="pr">$6.25</span></li>
+            <li class="menu-item"><span class="nm">Grilled Chicken Filet</span><span class="pr">$4.95</span></li>
+            <li class="menu-item"><span class="nm">Turkey Burger</span><span class="pr">$4.95</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Side Orders</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Dinner Salad</span><span class="pr">$3.25</span></li>
+            <li class="menu-item"><span class="nm">Homemade Soup<small>Cup / Bowl</small></span><span class="pr">$2.70 / $4.50</span></li>
+            <li class="menu-item"><span class="nm">Breaded Mozzarella Sticks</span><span class="pr">$4.35</span></li>
+            <li class="menu-item"><span class="nm">Onion Rings</span><span class="pr">$4.25</span></li>
+            <li class="menu-item"><span class="nm">French Fries</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Hash Browns</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Mashed Potatoes</span><span class="pr">$3.50</span></li>
+            <li class="menu-item"><span class="nm">Breaded Green Beans</span><span class="pr">$4.85</span></li>
+            <li class="menu-item"><span class="nm">Dressing or Added Cheese</span><span class="pr">$0.50</span></li>
+            <li class="menu-item"><span class="nm">Extra Cranberry</span><span class="pr">$0.50</span></li>
+          </ul>
+        </div>
+        <div class="menu-cat">
+          <h3>Drinks</h3>
+          <ul>
+            <li class="menu-item"><span class="nm">Large Pop with Refill</span><span class="pr">$2.95</span></li>
+            <li class="menu-item"><span class="nm">Small Pop</span><span class="pr">$1.60</span></li>
+            <li class="menu-item"><span class="nm">Can of Pop</span><span class="pr">$1.75</span></li>
+            <li class="menu-item"><span class="nm">Coffee</span><span class="pr">$2.25</span></li>
+            <li class="menu-item"><span class="nm">Milk<small>Small / Large</small></span><span class="pr">$1.60 / $1.95</span></li>
+            <li class="menu-item"><span class="nm">Juice<small>Small / Large</small></span><span class="pr">$1.60 / $1.95</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="menu-note reveal">Prices reflect the latest posted menu and may change. Call <a href="tel:+16516749958" style="color:var(--butter)">(651) 674-9958</a> to confirm today's offerings, specials, and pie selection.</p>
   </div>
 </section>
 
@@ -402,6 +684,7 @@
       <div class="hero-actions reveal d3" style="margin-top:0">
         <a class="btn btn-solid" href="tel:+16516749958">Call (651) 674-9958</a>
         <a class="btn btn-line" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=43821+Forest+Blvd+Harris+MN+55032">Get directions →</a>
+        <a class="btn btn-line" target="_blank" rel="noopener" href="https://www.facebook.com/kaffestugamn/">Daily specials on Facebook →</a>
       </div>
     </div>
     <div class="map reveal d1">
@@ -420,7 +703,6 @@
       <div>43821 Forest Blvd · Harris, MN 55032 · <a href="tel:+16516749958" style="color:var(--butter)">(651) 674-9958</a></div>
       <div style="display:flex;gap:18px"><a target="_blank" rel="noopener" href="https://www.facebook.com/kaffestugamn/">Facebook</a><a href="#menu">Menu</a><a href="#visit">Directions</a></div>
     </div>
-    <div class="demo-note">Independent concept site for Kaffe Stuga, built from public information. Food photography is illustrative (via Unsplash). Name, address, phone, hours, and review quotes are drawn from public listings (Tripadvisor / Restaurantji) — please confirm all details before publishing.</div>
   </div>
 </footer>
 
@@ -634,6 +916,17 @@
       card.style.setProperty('--mx',(e.clientX-r.left)+'px');
       card.style.setProperty('--my',(e.clientY-r.top)+'px');
     },{passive:true});
+  });
+
+  /* ---- Menu tabs (Main / Breakfast / Lunch) ---- */
+  const menuTabs=[...document.querySelectorAll('.menu-tab')];
+  const menuPanels=[...document.querySelectorAll('.menu-panel')];
+  menuTabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const key=tab.dataset.tab;
+      menuTabs.forEach(t=>{const on=t===tab;t.classList.toggle('active',on);t.setAttribute('aria-selected',on);});
+      menuPanels.forEach(p=>p.classList.toggle('active',p.dataset.panel===key));
+    });
   });
 </script>
 </body>
